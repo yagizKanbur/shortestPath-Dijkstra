@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1489367310 source:c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\main.c
+	<stdio.h>
+	<string.h>
+	<limits.h>
+	"fdijkstra.h"
+	"dijkstra.h"
+
+1489366044 c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\fdijkstra.h
+
+1489367310 source:c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\fdijkstra\main.c
+	<limits.h>
+	<stdio.h>
+	<string.h>
+	"fdijkstra.h"
+
+1489365590 c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\fdijkstra\fdijkstra.h
+
+1489367703 source:c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\dijkstra\main.c
+	<stdio.h>
+	<string.h>
+	<limits.h>
+	"fdijkstra.h"
+	"dijkstra.h"
+
+1489366044 c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\dijkstra\fdijkstra.h
+
+1489366964 c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\dijkstra\dijkstra.h
+
+1489366964 c:\users\yagiz\desktop\yagiz projeler\shortest path ulitmate verison\dijkstra.h
+
