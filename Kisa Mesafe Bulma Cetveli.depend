@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1489656380 source:c:\users\yagiz\desktop\150202055\main.c
+	<stdio.h>
+	<string.h>
+	<limits.h>
+	"fdijkstra.h"
+	"dijkstra.h"
+
+1489500538 c:\users\yagiz\desktop\150202055\fdijkstra.h
+
+1489566139 c:\users\yagiz\desktop\150202055\dijkstra.h
+

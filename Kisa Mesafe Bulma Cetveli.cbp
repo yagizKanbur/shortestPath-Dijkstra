@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Shortest Path Ulitmate Verison" />
+		<Option title="Kisa Mesafe Bulma Cetveli" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/Shortest Path Ulitmate Verison" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/Kisa Mesafe Bulma Cetveli" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/Shortest Path Ulitmate Verison" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/Kisa Mesafe Bulma Cetveli" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -31,15 +31,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="dijkstra.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="dijkstra.h" />
 		<Unit filename="dijkstra/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="fdijkstra.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="fdijkstra.h" />
 		<Unit filename="fdijkstra/main.c">
 			<Option compilerVar="CC" />
 		</Unit>

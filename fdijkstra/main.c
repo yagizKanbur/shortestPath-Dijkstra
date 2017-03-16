@@ -3,30 +3,37 @@
 #include<string.h>
 #include "fdijkstra.h"
 
-int compare0 (int counter, char cm[][20],char ccm[][20]){ /// finds the city number for given city and returns it.
-    for(int i=1; i<counter; i++){
-        if(!strcmp(cm[0],ccm[i])){ /// compares two strings given. ccm stands for cityCodeMatrix. cm stands for city
+int compareFirstCity (int counter, char cm[][20],char ccm[][20])  /// finds the city number for given city and returns it.
+{
+    for(int i=1; i<counter; i++)
+    {
+        if(!strcmp(cm[0],ccm[i]))  /// compares two strings given. ccm stands for cityCodeMatrix. cm stands for city
+        {
             return i; /// returns city code number
         }
     }
-    return counter+1; /// returning a non-valid number.
+    return 0; /// returning a non-valid number.
 }
 
-int compare1 (int counter, char cm[][20],char ccm[][20]){ /// finds the city number for given city and returns it.
-    for(int i=1; i<counter; i++){
-        if(!strcmp(cm[1],ccm[i])){ /// compares two strings given. ccm stands for cityCodeMatrix. cm stands for city.
+int compareSecondCity (int counter, char cm[][20],char ccm[][20])  /// finds the city number for given city and returns it.
+{
+    for(int i=1; i<counter; i++)
+    {
+        if(!strcmp(cm[1],ccm[i]))  /// compares two strings given. ccm stands for cityCodeMatrix. cm stands for city.
+        {
             return i; /// returns city code number
         }
     }
-    return counter+1; /// returning a non-valid number.
+    return 0; /// returning a non-valid number.
 }
 
-void addDistance (int counter,int i, int j, int nm[][counter], int distance){ /// adds distance to neighborhood matrix. nm stands for neighborhood matrix.
-    nm[i][j] = distance;
-    nm[j][i] = distance;
+void addDistance (int counter,int i, int j, int nm[][counter], int distance)  /// adds distance to neighborhood matrix. nm stands for neighborhood matrix.
+{
+    nm[i][j] = nm[j][i] = distance;
 }
 
-int cityCounter (int counter){ /// Finds out how many cities text file contains.
+int cityCounter (int counter)  /// Finds out how many cities text file contains.
+{
     int ch;
     FILE *fp;
 
@@ -44,7 +51,8 @@ int cityCounter (int counter){ /// Finds out how many cities text file contains.
     /// Returns the number of cities.
 }
 
-void addToCCM (char cityCodeMatrix[][20]){ /// adds cities to city code matrix
+void addToCCM (char cityCodeMatrix[][20])  /// adds cities to city code matrix
+{
     int ch;
     FILE *fp;
 
@@ -77,9 +85,6 @@ void addToCCM (char cityCodeMatrix[][20]){ /// adds cities to city code matrix
 
     fclose(fp); /// Closing file.
 
-    /*for(int i=1; i<counter; i++){
-        printf("%s\n",cityCodeMatrix[i]);
-    }*/ /// City Code Matrix control output */
 }
 
 void addToNM (int counter, char cityCodeMatrix[][20],char city[][20],int neighborhoodMatrix[counter][counter]) /// adds distances to neighborhood matrix
@@ -88,9 +93,11 @@ void addToNM (int counter, char cityCodeMatrix[][20],char city[][20],int neighbo
     FILE *fp;
     fp = fopen("sehir mesafe.txt","r");
 
-    for(int i=0; i<counter; i++){
-        for(int j=0; j<counter; j++){
-                neighborhoodMatrix[i][j] = INT_MAX-1000;
+    for(int i=0; i<counter; i++)
+    {
+        for(int j=0; j<counter; j++)
+        {
+            neighborhoodMatrix[i][j] = INT_MAX-3000;
         }
     } /// Neighborhood Matrix maxing distances.
 
@@ -121,18 +128,11 @@ void addToNM (int counter, char cityCodeMatrix[][20],char city[][20],int neighbo
         }
         else if (ch == '\n')
         {
-            addDistance(counter,compare0(counter,city,cityCodeMatrix),compare1(counter,city,cityCodeMatrix),neighborhoodMatrix,atoi(number));
+            addDistance(counter,compareFirstCity(counter,city,cityCodeMatrix),compareSecondCity(counter,city,cityCodeMatrix),neighborhoodMatrix,atoi(number));
 
-            /*for(int i=0; i<counter; i++){
-                printf("%s\n",cityCodeMatrix[i]);
-            }*/ /// City Code Matrix control output.
-
-            /// printf("%s-%s-%s\n",city[0],city[1],number); /// City Matrix control output.
-
-            ///printf("%s\n",number); /// Number array control output.
             for(int i=0; i<2; i++)
             {
-                for(int j=0; j<20; j++)
+                for(int j=0; j<25; j++)
                 {
                     city[i][j] = '\0';
                 }
@@ -152,20 +152,7 @@ void addToNM (int counter, char cityCodeMatrix[][20],char city[][20],int neighbo
             y++;
         }
     }
-    addDistance(counter,compare0(counter,city,cityCodeMatrix),compare1(counter,city,cityCodeMatrix),neighborhoodMatrix,atoi(number)); /// Last one couldn't added in loop cause of EOF.
-
-    ///printf("%s-%s-%s\n",city[0],city[1],number); /// City Matrix control output.
+    addDistance(counter,compareFirstCity(counter,city,cityCodeMatrix),compareSecondCity(counter,city,cityCodeMatrix),neighborhoodMatrix,atoi(number)); /// Last one couldn't added in loop cause of EOF.
 
     fclose(fp);
-
-    /*for(int i=1; i<counter; i++){
-        for(int j=1; j<counter; j++){
-                printf("%d|",neighborhoodMatrix[i][j]);
-        }
-         printf("\n");
-    }*/ /// Neighborhood Matrix control output
-
-    /* for(int i=0; i<counter; i++){
-        printf("%s\n",cityCodeMatrix[i]);
-    }*/ /// City Code Matrix control output
 }

@@ -3,140 +3,164 @@
 #include<limits.h>
 #include"fdijkstra.h"
 #include"dijkstra.h"
+#include <stdbool.h>
 
-int shortestPathBetweenTwoCities(int counter, int neighborhoodMatrix[][counter],int source,int target, char cityCodeMatrix[counter][20]) /// returns shortest path between two given cities.
+int shortestPathBetweenTwoCities(int counter, int neighborhoodMatrix[][counter],int startingCity,int destination, char cityCodeMatrix[counter][20])
 {
-    int dist[counter]; /// Holds distance between source and other cities.
-    int m,minimum,start,d; /// needed variables.
-    int selected[counter]; /// Holds selected graphs while algortihm works.
-    int prev[counter]; /// Holds previous passed cities.
-    char path[counter][20];
+    int* distance = malloc(counter * sizeof(int));
+    int* visitedCities = calloc(counter,sizeof(int));
+    int* reversedVisitedCities = calloc(counter,sizeof(int));
+    bool* selectedCities = malloc(counter * sizeof(int));
+    int iter = startingCity,minimum;
+    int indiceOfNextCity, distanceToSC;
 
-    for(int i=1;i< counter;i++)
+    for (int i=1; i<counter; i++)  /// Setting all distances except starting city's distance to infinity.
     {
-        selected[i]=0; /// Makes all graphs unselected.
+        if (i == startingCity)
+        {
+            distance[startingCity] = 0;
+        }
+        else
+        {
+            distance[i]=INT_MAX;
+        }
     }
 
-    for(int i=1;i< counter;i++)
+    for (int i=1; i<counter; i++)
     {
-        dist[i] = INT_MAX; /// Makes distance from starting city to others infinite.
-        prev[i] = -1; /// Will be used in the future.
+        selectedCities[i] = false; /// false means unselected.
+        visitedCities[i] = -1; /// -1 means unvisited.
     }
 
-    start = source;
-    selected[start]=1; /// Makes source city selected.
-    dist[start] = 0; /// Makes source cities distance to itself 0.
+    /// selectedCities[startingCity] = true;
+    distance[startingCity] = 0;
 
-    while(selected[target] ==0) /// Until algorithm reachs the target city.
+    while(selectedCities[destination] == false) /// Until destination selected
     {
         minimum = INT_MAX;
-        m = 0;
-        for(int i=1; i<counter;i++)
+
+        for (int i = 1; i<counter; i++)
         {
-            d = dist[start] + neighborhoodMatrix[start][i];
-            if(d< dist[i]&&selected[i]==0)
+            distanceToSC = distance[iter] + neighborhoodMatrix[iter][i]; /// Distance to starting city
+            if (selectedCities[i] == false)
             {
-                dist[i] = d;
-                prev[i] = start;
+                if (distanceToSC < distance[i])
+                {
+                    distance[i] = distanceToSC;
+                    visitedCities[i] = iter;
+                }
+                if (minimum > distance[i])
+                {
+                    minimum = distance[i];
+                    indiceOfNextCity = i;
+                }
             }
-            if(minimum>dist[i] && selected[i]==0) /// if minimum distance bigger than distance of city and city was not selected before
+            else
             {
-                minimum = dist[i];
-                m = i;
+                continue;
             }
         }
-        start = m;
-        selected[start] = 1;
+        iter = indiceOfNextCity;
+        selectedCities[iter] = true;
     }
-
-    start = target;  /// Backtracing cities target to start.
-    int j = 0;
-    int passedCitiesNumber=0;
-    while(start != -1)
-    {
-        strcpy(path[j++],cityCodeMatrix[start]);
-        passedCitiesNumber++;
-        start = prev[start];
-    }
-    strcpy(path[target],cityCodeMatrix[target]);
+    iter = destination;
+    int j=0;
 
     printf("Passed Cities: ");
 
-    for(int i=passedCitiesNumber-1; i>=1; i--){
-        printf("%s->", path[i]);
-    }
+    passedCities(counter,iter,cityCodeMatrix,visitedCities, destination,startingCity);
 
-    printf("%s",path[target]);
-
-    return dist[target]; /// Returns distance to target city.
+    return distance[destination];
 }
 
-void shortestPathToAllCites(int counter, int neighborhoodMatrix[][counter],int source,char cityCodeMatrix[counter][20])
+void passedCities(int counter, int iter, char cityCodeMatrix[][20], int visitedCities[counter], int destination, int startingCity)
 {
-    int dist[counter]; /// Holds distance between source and other cities.
-    int m,minimum,start,d; /// needed variables.
-    int selected[counter]; /// Holds selected graphs while algortihm works.
-    int prev[counter]; /// Holds previous passed cities.
+    while (iter != -1)
+    {
+        if(iter!=destination)
+        {
+            printf("<-%s",cityCodeMatrix[iter]);
+        }
+        else
+        {
+            printf("%s",cityCodeMatrix[iter]);
+        }
+        iter = visitedCities[iter];
+    }
+}
+
+void shortestPathToAllCites(int counter, int neighborhoodMatrix[][counter],int startingCity,char cityCodeMatrix[counter][20])
+{
+    int* distance = malloc(counter * sizeof(int));
+    int* visitedCities = calloc(counter,sizeof(int));
+    int* reversedVisitedCities = calloc(counter,sizeof(int));
+    bool* selectedCities = malloc(counter * sizeof(int));
+
     char path[counter][20];
 
-    for(int target=1; target<counter; target++)
+    int iter = startingCity;
+    int indiceOfNextCity, distanceToSC, minimum;
+
+    for(int destination=1; destination<counter; destination++)
     {
 
-        for(int i=1; i<counter; i++)
+        for (int i=1; i<counter; i++)  /// Setting all distances except starting city's distance to infinity.
         {
-            selected[i]=0; /// Makes all graphs unselected.
+            if (i == startingCity)
+            {
+                distance[startingCity] = 0;
+            }
+            else
+            {
+                distance[i]=INT_MAX;
+            }
         }
 
-        for(int i=1; i<counter; i++)
+        for (int i=1; i<counter; i++)
         {
-            dist[i] = INT_MAX; /// Makes distance from starting city to others infinite.
-            prev[i] = -1; /// Will be used in the future.
+            selectedCities[i] = false; /// false means unselected.
+            visitedCities[i] = -1; /// -1 means unvisited.
         }
 
-        start = source;
-        selected[start]=1; /// Makes source city selected.
-        dist[start] = 0; /// Makes source cities distance to itself 0.
+        iter = startingCity;
+        selectedCities[iter]= true; /// Makes source city selected.
 
-        while(selected[target] ==0) /// Until algorithm reachs the target city.
+        while(selectedCities[destination] == false) /// Until destination selected
         {
             minimum = INT_MAX;
-            m = 0;
-            for(int i=1; i<counter; i++)
+
+            for (int i = 1; i<counter; i++)
             {
-                d = dist[start] + neighborhoodMatrix[start][i]; /// !!!INT_MAX error probably happens because of this line!!!
-                if(d< dist[i]&&selected[i]==0)
+                distanceToSC = distance[iter] + neighborhoodMatrix[iter][i]; /// Distance to starting city
+                if (selectedCities[i] == false)
                 {
-                    dist[i] = d;
-                    prev[i] = start;
+                    if (distanceToSC < distance[i])
+                    {
+                        distance[i] = distanceToSC;
+                        visitedCities[i] = iter;
+                    }
+                    if (minimum > distance[i])
+                    {
+                        minimum = distance[i];
+                        indiceOfNextCity = i;
+                    }
                 }
-                if(minimum>dist[i] && selected[i]==0) /// if minimum distance bigger than distance of city and city was not selected before
+                else
                 {
-                    minimum = dist[i];
-                    m = i;
+                    continue;
                 }
             }
-            start = m;
-            selected[start] = 1;
+            iter = indiceOfNextCity;
+            selectedCities[iter] = true;
         }
-        start = target;  /// Backtracing cities target to start.
-        int j = 0;
-        int passedCitiesNumber=0;
-        while(start != -1)
-        {
-            strcpy(path[j++],cityCodeMatrix[start]);
-            passedCitiesNumber++;
-            start = prev[start];
-        }
-        strcpy(path[target],cityCodeMatrix[target]);
+
+        iter = destination;
+        int j=0;
 
         printf("Passed Cities: ");
 
-        for(int i=passedCitiesNumber-1; i>=1; i--)
-        {
-            printf("%s->", path[i]);
-        }
-
-        printf("%s",path[target]);
-        printf(" The shortest path %d\n",dist[target]);
+        passedCities(counter,iter,cityCodeMatrix,visitedCities, destination,startingCity);
+        printf(" The Shortest Path: %d",distance[destination]);
+        printf("\n");
     }
 }
